@@ -1,0 +1,10 @@
+name: FlyPlugin
+version: 1.0.0
+api: 5.0.0
+main: fly.FlyPlugin
+author: YourName
+description: A simple fly plugin.
+commands:
+  fly:
+    description: "Enables or disables fly mode."
+    permission: flyplugin.command.fly
