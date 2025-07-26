@@ -3,8 +3,8 @@ version: 1.0.0
 api: 5.0.0
 main: fly.FlyPlugin
 author: YourName
-description: A simple fly plugin.
+description: A simple fly plugin with a form UI.
 commands:
   fly:
-    description: "Enables or disables fly mode."
+    description: "Enables or disables fly mode using a form."
     permission: flyplugin.command.fly

@@ -8,6 +8,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\Server;
 
 class FlyPlugin extends PluginBase {
 
@@ -23,14 +24,7 @@ class FlyPlugin extends PluginBase {
         if (strtolower($command->getName()) === "fly") {
             if ($sender instanceof Player) {
                 if ($sender->hasPermission("flyplugin.command.fly")) {
-                    if ($sender->getAllowFlight()) {
-                        $sender->setAllowFlight(false);
-                        $sender->setFlying(false);
-                        $sender->sendMessage("Fly mode disabled.");
-                    } else {
-                        $sender->setAllowFlight(true);
-                        $sender->sendMessage("Fly mode enabled.");
-                    }
+                    $this->sendFlyForm($sender);
                 } else {
                     $sender->sendMessage("You don't have permission to use this command.");
                 }
@@ -40,5 +34,29 @@ class FlyPlugin extends PluginBase {
             return true;
         }
         return false;
+    }
+
+    public function sendFlyForm(Player $player): void {
+        $form = new SimpleForm(function (Player $player, $data) {
+            if ($data === null) {
+                return;
+            }
+            switch ($data) {
+                case 0:
+                    $player->setAllowFlight(true);
+                    $player->sendMessage("Fly mode enabled.");
+                    break;
+                case 1:
+                    $player->setAllowFlight(false);
+                    $player->setFlying(false);
+                    $player->sendMessage("Fly mode disabled.");
+                    break;
+            }
+        });
+        $form->setTitle("Fly Control");
+        $form->setContent("Choose an option:");
+        $form->addButton("Enable Fly");
+        $form->addButton("Disable Fly");
+        $player->sendForm($form);
     }
 }
